@@ -52,3 +52,9 @@ def show_statistics():
     for ip, count in top[:5]:
         print(f"{ip} : {count}")
 
+def get_protocol_stats():
+    return tcp_count, udp_count, icmp_count
+
+def get_top_talkers():
+    return ip_counter
+

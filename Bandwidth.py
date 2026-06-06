@@ -40,3 +40,6 @@ def show_bandwidth():
     print(
         f"ICMP Traffic  : {icmp_bytes/1024:.2f} KB"
     )
+
+def get_bandwidth_stats():
+    return tcp_bytes, udp_bytes, icmp_bytes
