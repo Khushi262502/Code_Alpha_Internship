@@ -2,7 +2,8 @@ from rich.live import Live
 from rich.table import Table
 from rich.console import Console
 import time
-
+from rich.console import Group
+from dns_analyzer import get_dns_stats
 from analyzer import (
     get_protocol_stats,
     get_top_talkers
@@ -11,7 +12,6 @@ from analyzer import (
 from Bandwidth import get_bandwidth_stats
 
 console = Console()
-
 
 def generate_dashboard():
 
@@ -63,6 +63,15 @@ def generate_dashboard():
         str(icmp_b)
     )
 
+    # Top Talkers Table
+
+    talker_table = Table(
+        title="Top Talkers"
+    )
+
+    talker_table.add_column("IP Address")
+    talker_table.add_column("Packets")
+
     top_talkers = get_top_talkers()
 
     top = sorted(
@@ -73,14 +82,42 @@ def generate_dashboard():
 
     for ip, count in top:
 
-        dashboard.add_row(
-            f"Top Talker {ip}",
+        talker_table.add_row(
+            ip,
             str(count)
         )
 
-    return dashboard
+    # DNS Table
 
+    dns_table = Table(
+        title="Top Domains"
+    )
 
+    dns_table.add_column("Domain")
+    dns_table.add_column("Queries")
+
+    dns_stats = get_dns_stats()
+
+    print("DNS stats Dashboard",dns_stats)
+
+    top_domains = sorted(
+        dns_stats.items(),
+        key=lambda x: x[1],
+        reverse=True
+    )[:5]
+
+    for domain, count in top_domains:
+
+        dns_table.add_row(
+            str(domain),
+            str(count)
+        )
+
+    return Group(
+        dashboard,
+        talker_table,
+        dns_table
+    )
 def show_rich_dashboard():
 
     with Live(
@@ -89,7 +126,7 @@ def show_rich_dashboard():
         console=console
     ) as live:
 
-        while True:
+        for i in range(10):
 
             live.update(
                 generate_dashboard()

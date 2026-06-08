@@ -1,0 +1,18 @@
+NETWORK ANALYSIS REPORT
+==============================
+
+TCP Packets : 107
+UDP Packets : 0
+ICMP Packets: 0
+
+TCP Bytes : 22460
+UDP Bytes : 0
+ICMP Bytes: 0
+
+TOP TALKERS
+--------------------
+192.168.1.31 : 88
+13.69.239.74 : 11
+20.42.73.27 : 5
+20.184.175.20 : 2
+20.190.146.33 : 1

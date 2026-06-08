@@ -2,13 +2,16 @@ from scapy.all import *
 from analyzer import analyze_packet, show_statistics
 from Bandwidth import calculate_bandwidth, show_bandwidth
 from dns_analyzer import analyze_dns, show_dns_stats
-
+from scapy.layers.dns import DNSQR
 packet_counter = 0
 captured_packets = []
 
 def packet_callback(packet):
 
     global packet_counter
+
+    if packet.haslayer(DNSQR):
+        print("DNS found")
 
     if IP in packet:
 
